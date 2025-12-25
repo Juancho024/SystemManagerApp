@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/page_principal">
+
+    <fragment
+        android:id="@+id/page_principal"
+        android:name="com.jrdev.systemmanager.controllers.principal.PrincipalFragment"
+        tools:layout="@layout/fragment_principal" />
+
+    <fragment
+        android:id="@+id/page_propietarios"
+        android:name="com.jrdev.systemmanager.controllers.propietarios.PropietarioFragment"
+        tools:layout="@layout/fragment_propietario" />
+
+    <fragment
+        android:id="@+id/page_contabilidad"
+        android:name="com.jrdev.systemmanager.controllers.contabilidad.ContabilidadFragment"
+        tools:layout="@layout/fragment_contabilidad" />
+
+    <fragment
+        android:id="@+id/page_calendario"
+        android:name="com.jrdev.systemmanager.controllers.calendario.CalendarioFragment"
+        tools:layout="@layout/fragment_calendario" />
+
+</navigation>

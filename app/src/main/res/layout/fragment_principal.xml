@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".controllers.principal.PrincipalFragment">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="407dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="85dp"
+        android:text=" Santos 1 | Manager"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/cvPrueba"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvBuscador"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="16dp"
+
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:strokeWidth="0dp">
+
+        <EditText
+            android:id="@+id/etBuscarPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@null"
+            android:hint="Buscar por nombre, apartamento o monto"
+
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="#000000"
+            android:textColorHint="#757575"
+            android:textSize="14sp" />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvTotalAbonado"
+        android:layout_width="180dp"
+        android:layout_height="125dp"
+
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardElevation="10dp"
+
+        app:cardMaxElevation="10dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.261"
+        app:strokeColor="#77DD77"
+        app:strokeWidth="3dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Total Abonado"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="#000000" />
+
+            <TextView
+                android:id="@+id/txtTotalAbonado"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="DOP $"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvTotalAdeudado"
+        android:layout_width="180dp"
+        android:layout_height="125dp"
+
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="10dp"
+        app:cardUseCompatPadding="true"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.261"
+        app:strokeColor="#FF6961"
+        app:strokeWidth="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Total Adeudado"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="#000000" />
+
+            <TextView
+                android:id="@+id/txtTotalAdeudado"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="DOP $"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="411dp"
+        android:layout_height="453dp"
+        android:layout_marginTop="6dp"
+        android:background="#F5F5F5"
+        android:backgroundTint="#FFFFFF"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvTotalAbonado">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:strokeColor="#2E7D32"
+            app:strokeWidth="1dp"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="27dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Estado"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:text="Apto"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Nombre "
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:gravity="end"
+                        android:text="Abonado"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:gravity="end"
+                        android:text="Balance"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#E0E0E0" />
+
+                //No funciono el layout de la tabla
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tablePrincipal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_fila_tabla" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

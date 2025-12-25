@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/page_principal"
+        android:icon="@drawable/house_solid"
+        android:title="Principal" />
+
+    <item
+        android:id="@+id/page_propietarios"
+        android:icon="@drawable/user_solid"
+        android:title="Propietarios" />
+
+    <item
+        android:id="@+id/page_contabilidad"
+        android:icon="@drawable/calendar_plus_regular"
+        android:title="Contabilidad" />
+
+    <item
+        android:id="@+id/page_calendario"
+        android:icon="@drawable/calendar_solid"
+        android:title="Calendario" />
+
+
+
+</menu>

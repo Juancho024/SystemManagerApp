@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registro Financiero"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:paddingBottom="12dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextField.BlackOutline"
+            android:id="@+id/tilMesCuota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="  Cuota del mes"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="dropdown_menu"
+            app:endIconTint="@color/black"
+            app:helperText="Selecciona desde la lista">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/etMesCuota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:clickable="true"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:dropDownVerticalOffset="8dp"
+                android:dropDownHeight="240dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextField.BlackOutline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Monto de la cuota"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMontoCuota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+
+                <CheckBox
+                    android:id="@+id/cbAgua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mensualidad del Agua"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/cbLuz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mensualidad de la Luz"
+                    android:textStyle="bold"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="8dp">
+
+                <CheckBox
+                    android:id="@+id/cbMantenimiento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mantenimiento"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/cbOtros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Otros"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextField.BlackOutline"
+                        android:id="@+id/tilOtros"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:hint="Asuntos del mes"
+                        android:visibility="gone"
+                        app:boxBackgroundMode="outline">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etOtros"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:inputType="textCapSentences"
+                            android:maxLines="2"
+                            android:textColor="@color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextField.BlackOutline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Monto final"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMontoFinal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lbFacturas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Facturas del Mes"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/lbFacturasHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Máx. 4 - PNG, JPEG"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:paddingTop="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSeleccionarArchivos"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:text="Seleccionar Archivos"
+            android:textStyle="bold"
+            app:backgroundTint="#b0bec5"
+            android:textColor="@android:color/white"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_menu_gallery"
+            app:iconGravity="textStart"
+            app:iconPadding="6dp"
+            app:iconTint="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/containerImagenes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="4">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="#ECEFF1"
+                    android:padding="6dp" />
+
+                <TextView
+                    android:id="@+id/btnRemove1"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:text="✕"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_remove_chip"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="#ECEFF1"
+                    android:padding="6dp" />
+
+                <TextView
+                    android:id="@+id/btnRemove2"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:text="✕"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_remove_chip"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="#ECEFF1"
+                    android:padding="6dp" />
+
+                <TextView
+                    android:id="@+id/btnRemove3"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:text="✕"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_remove_chip"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="#ECEFF1"
+                    android:padding="6dp" />
+
+                <TextView
+                    android:id="@+id/btnRemove4"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:text="✕"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_remove_chip"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGuardar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Guardar Registro"
+                android:textStyle="bold"
+                app:backgroundTint="#2d4059"
+                android:textColor="@android:color/white"
+                app:cornerRadius="18dp"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancelar"
+                android:textStyle="bold"
+                app:backgroundTint="#B0BEC5"
+                android:textColor="@android:color/white"
+                app:cornerRadius="18dp"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".controllers.propietarios.PropietarioFragment">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="407dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="16dp"
+        android:text=" Santos 1 | Propietarios"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvBuscador"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/cvMensajeBienvenida"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:strokeWidth="0dp">
+
+        <EditText
+            android:id="@+id/txtBuscarPropietario"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="Buscar por nombre, apartamento o monto"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="#000000"
+            android:textColorHint="#757575"
+            android:textSize="14sp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- CardView de mensaje inicial de bienvenida -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvMensajeBienvenida"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#E3F2FD"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:strokeWidth="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvBuscador">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔎"
+                android:textSize="48sp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingresa el nombre del propietario"
+                android:textColor="#1976D2"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="o número de apartamento"
+                android:textColor="#1976D2"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="para ver sus detalles"
+                android:textColor="#1976D2"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvDetalles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#EFF3F6"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:strokeWidth="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvBuscador">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"> <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="Detalles del Propietario"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estado Actual: "
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:textSize="14sp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/chipEstadoDetalle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="#E8F5E9"
+                    app:cardCornerRadius="50dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <TextView
+                        android:id="@+id/lbAlDia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="● Al día"
+                        android:textColor="#2E7D32"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"/>
+                    <TextView
+                        android:id="@+id/lbPendiente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="● Pendiente"
+                        android:textColor="#E53935"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"/>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Numero de Apartamento:"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/txtNumApto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_input_field"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Nombre del Propietario:"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/txtNombreP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_input_field"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:id="@+id/llTotalAbonado"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Total Abonado:"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                    <EditText
+                        android:id="@+id/txtTotalAbonado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_field"
+                        android:padding="8dp"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:enabled="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llMontoAgregadoAbono"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Monto agregado:"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                    <EditText
+                        android:id="@+id/txtMontoAgregadoAbono"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_field"
+                        android:padding="8dp"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:hint="0"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/llTotalAdeudado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Total Adeudado:"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                    <EditText
+                        android:id="@+id/txtTotalAdeudado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_field"
+                        android:padding="8dp"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:enabled="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llMontoAgregadoDeuda"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Monto agregado:"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                    <EditText
+                        android:id="@+id/txtMontoAgregadoDeuda"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_field"
+                        android:padding="8dp"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:hint="0"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#BDBDBD"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnModificar"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:text="Modificar"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    app:backgroundTint="#4CAF50"
+                    app:cornerRadius="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEliminar"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Eliminar"
+                    android:textSize="13sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    app:backgroundTint="#E53935"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_dialog_card"
+        android:elevation="8dp"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Procesando"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iniciando transacción segura..."
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:paddingTop="4dp"
+            android:paddingBottom="12dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="260dp"
+            android:layout_height="20dp"
+            android:progress="0"
+            android:max="100"
+            android:progressTint="@color/black"
+            android:indeterminate="false"/>
+
+        <TextView
+            android:id="@+id/tvHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por favor no cierre la aplicación..."
+            android:textSize="11sp"
+            android:textColor="#999999"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+</FrameLayout>

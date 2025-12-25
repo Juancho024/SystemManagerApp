@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@android:color/white"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Procesando..."
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="#333333"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:id="@+id/dialog_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iniciando..."
+            android:textSize="14sp"
+            android:textColor="#666666"/>
+
+        <ProgressBar
+            android:id="@+id/dialog_progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/custom_progress_bar" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por favor no cierre la aplicación..."
+            android:textSize="11sp"
+            android:textStyle="italic"
+            android:textColor="#999999"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

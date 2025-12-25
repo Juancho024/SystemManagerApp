@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="12dp">
+
+        <TextView
+            android:id="@+id/tvNumApto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:text="A-1"
+            android:textColor="#333333"/>
+        <TextView
+            android:id="@+id/tvCuotaMensual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:text="DOP $ 830.00"
+            android:textColor="#333333"/>
+
+        <TextView
+            android:id="@+id/tvDescripcion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="Se pago el agua, se pago la luz, se pago el mantenimiento"
+            android:textColor="#000000"/>
+
+        <TextView
+            android:id="@+id/tvMontoPagar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:gravity="end"
+            android:text="DOP $ 830.00"
+            android:textColor="#333333"/>
+
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:gravity="end"
+            android:text="DOP $ 22.00"
+            android:textStyle="bold"
+            android:textColor="#4CAF50"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F0F0F0"/>
+
+</LinearLayout>
