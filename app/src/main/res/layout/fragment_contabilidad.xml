@@ -26,6 +26,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cvBuscador"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,7 +76,7 @@
         android:orientation="horizontal"
         android:paddingHorizontal="24dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/cardTabla"
+        app:layout_constraintBottom_toTopOf="@+id/tablaContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,6 +131,7 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tablaContainer"
         android:layout_width="408dp"
         android:layout_height="533dp"
         android:layout_marginTop="1dp"

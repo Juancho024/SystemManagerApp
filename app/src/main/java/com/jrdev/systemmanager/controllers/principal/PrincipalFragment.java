@@ -22,7 +22,10 @@ import com.jrdev.systemmanager.R;
 import com.jrdev.systemmanager.adapters.PropietariosAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class PrincipalFragment extends Fragment {
     private RecyclerView tablePrincipal;
@@ -33,6 +36,9 @@ public class PrincipalFragment extends Fragment {
     
     // Lista completa de propietarios (sin filtrar)
     private List<PropietarioDao> propietariosCompletos = new ArrayList<>();
+
+    // Comparador para ordenar por número de apartamento (numérico cuando sea posible)
+    private final Comparator<PropietarioDao> aptoComparator = (a, b) -> compareApto(a.numApto, b.numApto);
 
     // URL de tu API
     private static final String BASE_URL = "https://api-systemmanager.onrender.com";
@@ -82,8 +88,9 @@ public class PrincipalFragment extends Fragment {
         // Cargar todos los propietarios una sola vez
         repository.listar("", "").observe(getViewLifecycleOwner(), propietarios -> {
             if (propietarios != null) {
-                propietariosCompletos = propietarios;
-                adapter.actualizarLista(propietarios);
+                propietariosCompletos = new ArrayList<>(propietarios);
+                Collections.sort(propietariosCompletos, aptoComparator);
+                adapter.actualizarLista(propietariosCompletos);
                 calcularTotales(propietariosCompletos);
             } else {
                 // Manejar error o lista vacía
@@ -110,8 +117,32 @@ public class PrincipalFragment extends Fragment {
                 propietariosFiltrados.add(p);
             }
         }
-        
+
+        Collections.sort(propietariosFiltrados, aptoComparator);
         adapter.actualizarLista(propietariosFiltrados);
+    }
+
+    // Ordena aptos tipo "A-1", "A-10", "B-2": primero prefijo, luego número
+    private int compareApto(String a, String b) {
+        if (a == null) a = "";
+        if (b == null) b = "";
+
+        String pa = a.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
+        String pb = b.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
+        int prefix = pa.compareTo(pb);
+        if (prefix != 0) return prefix;
+
+        // Si los prefijos son iguales, comparar el número
+        try {
+            int na = Integer.parseInt(a.replaceAll("[^0-9]", ""));
+            int nb = Integer.parseInt(b.replaceAll("[^0-9]", ""));
+            int numeric = Integer.compare(na, nb);
+            if (numeric != 0) return numeric;
+        } catch (Exception ignored) {
+            // Si no hay números, cae a comparación completa
+        }
+
+        return a.compareToIgnoreCase(b);
     }
 
     private void calcularTotales(List<PropietarioDao> propietarios) {

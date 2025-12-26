@@ -39,6 +39,9 @@ import java.time.YearMonth;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
 
 public class ContabilidadFragment extends Fragment {
     private RecyclerView tableContabilidad;
@@ -250,6 +253,7 @@ public class ContabilidadFragment extends Fragment {
             float balancefinal = (p.totalabonado != null ? p.totalabonado : 0f) - balanceActual;
             combinedList.add(new TablaRegistroItem(p.numApto, registroMes.cuotaMensual, registroMes.descripcion, registroMes.montoPagar, balancefinal));
         }
+        Collections.sort(combinedList, (a, b) -> compareApto(a.numApto, b.numApto));
         return combinedList;
     }
 
@@ -281,6 +285,7 @@ public class ContabilidadFragment extends Fragment {
                     balanceActualPropietario
             ));
         }
+        Collections.sort(combinedList, (a, b) -> compareApto(a.getApto(), b.getApto()));
         return combinedList;
     }
 
@@ -321,6 +326,29 @@ public class ContabilidadFragment extends Fragment {
             }
             return YearMonth.of(anio, numeroMes);
         } catch (Exception e) { return YearMonth.now(); }
+    }
+
+    // Comparador común para ordenar por número de apartamento (ej. A-1, A-10, B-2)
+    private int compareApto(String a, String b) {
+        if (a == null) a = "";
+        if (b == null) b = "";
+
+        String pa = a.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
+        String pb = b.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
+        int prefix = pa.compareTo(pb);
+        if (prefix != 0) return prefix;
+
+        // Si los prefijos son iguales, comparar el número
+        try {
+            int na = Integer.parseInt(a.replaceAll("[^0-9]", ""));
+            int nb = Integer.parseInt(b.replaceAll("[^0-9]", ""));
+            int numeric = Integer.compare(na, nb);
+            if (numeric != 0) return numeric;
+        } catch (Exception ignored) {
+            // Si no hay números, cae a comparación completa
+        }
+
+        return a.compareToIgnoreCase(b);
     }
 
     private void setEmptyUIState(boolean empty) {

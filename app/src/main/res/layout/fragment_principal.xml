@@ -19,7 +19,7 @@
         android:textColor="#000000"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/cvPrueba"
+        app:layout_constraintBottom_toTopOf="@+id/cvBuscador"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

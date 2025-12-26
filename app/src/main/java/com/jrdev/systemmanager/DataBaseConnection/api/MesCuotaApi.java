@@ -11,5 +11,5 @@ public interface MesCuotaApi {
     Call<List<String>> listar();
 
     @DELETE("api/mescuotas/{mesAnio}")
-    Call<Void> eliminar(@Path("mesAnio") String mesAnio);
+    Call<Void> eliminar(@Path(value = "mesAnio", encoded = false) String mesAnio);
 }
