@@ -1,5 +1,6 @@
 
 import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)
@@ -17,7 +18,14 @@ android {
         minSdk = 24
         targetSdk = 36
         versionCode = 2
-        versionName = "2.0"
+        versionName = "2.1"
+        val properties = Properties()
+        val localPropertiesFile = project.rootProject.file("local.properties")
+
+        if (localPropertiesFile.exists()) {
+            properties.load(FileInputStream(localPropertiesFile))
+        }
+        buildConfigField("String", "API_URL", properties.getProperty("API_BASE_URL", "\"\""))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,6 +43,7 @@ android {
     }
     buildFeatures { //hecho del video
         viewBinding = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

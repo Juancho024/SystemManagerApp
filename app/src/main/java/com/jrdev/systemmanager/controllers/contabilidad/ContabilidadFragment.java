@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.jrdev.systemmanager.DataBaseConnection.dao.PropietarioDao;
 import com.jrdev.systemmanager.DataBaseConnection.dao.RegistroFinancieroDao;
@@ -33,15 +34,15 @@ import com.jrdev.systemmanager.R;
 import com.jrdev.systemmanager.adapters.RegistroFinancieroAdapter;
 import com.jrdev.systemmanager.models.InformeTableView;
 import com.google.android.material.card.MaterialCardView;
+import com.jrdev.systemmanager.utilities.GeneradorIMG;
 import com.jrdev.systemmanager.utilities.GeneradorPDF;
 
 import java.time.YearMonth;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Locale;
+
+import com.jrdev.systemmanager.BuildConfig;
 
 public class ContabilidadFragment extends Fragment {
     private RecyclerView tableContabilidad;
@@ -58,7 +59,8 @@ public class ContabilidadFragment extends Fragment {
     private MaterialCardView cardTabla;
     private boolean isUpdatingSearch = false;
     private ActivityResultLauncher<Intent> createPdfLauncher;
-    private static final String BASE_URL = "https://api-systemmanager.onrender.com";
+
+    private boolean modoPDF = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,8 +71,8 @@ public class ContabilidadFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Inicializar repository
-        registroRepo = new RegistroFinancieroRepository(BASE_URL);
-        propietarioRepo = new PropietarioRepository(BASE_URL);
+        registroRepo = new RegistroFinancieroRepository(BuildConfig.API_URL);
+        propietarioRepo = new PropietarioRepository(BuildConfig.API_URL);
 
         // Inicializar vistas
         tableContabilidad = view.findViewById(R.id.tableContabilidad);
@@ -122,7 +124,11 @@ public class ContabilidadFragment extends Fragment {
                     showMessage("No se pudo abrir el destino");
                     return;
                 }
-                new GeneradorPDF().generarReporte(os, registroMes, datos);
+                if(modoPDF){
+                    new GeneradorPDF().generarReporte(os, registroMes, datos);
+                } else {
+                    new GeneradorIMG().generarImagen(os, registroMes, datos);
+                }
                 showMessage("PDF guardado");
             } catch (Exception e) {
                 showMessage("Error al guardar PDF");
@@ -185,13 +191,24 @@ public class ContabilidadFragment extends Fragment {
                 showMessage("Sin datos para generar PDF en " + mes);
                 return;
             }
-            // Lanzar selector SAF para guardar en Descargas/Documentos
-            String fileName = "Informe_" + mes + ".pdf";
-            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-            intent.setType("application/pdf");
-            intent.putExtra(Intent.EXTRA_TITLE, fileName);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            createPdfLauncher.launch(intent);
+
+            new MaterialAlertDialogBuilder(getContext(), R.style.DialogoRedondoYNegro)
+                    .setTitle("Seleccionar Formato")
+                    .setItems(new String[]{"Documento (PDF)", "Imagen (IMG)"}, (dialog, which) -> {
+                        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        if (which == 0) {
+                            modoPDF = true;
+                            intent.setType("application/pdf");
+                            intent.putExtra(Intent.EXTRA_TITLE, "Informe_" + mes + ".pdf");
+                        } else {
+                            modoPDF = false;
+                            intent.setType("image/jpeg");
+                            intent.putExtra(Intent.EXTRA_TITLE, "Informe_" + mes + ".jpg");
+                        }
+                        createPdfLauncher.launch(intent);
+                    })
+                    .show();
         });
 
         btnActualizarRegistro.setOnClickListener(v -> {
@@ -253,7 +270,6 @@ public class ContabilidadFragment extends Fragment {
             float balancefinal = (p.totalabonado != null ? p.totalabonado : 0f) - balanceActual;
             combinedList.add(new TablaRegistroItem(p.numApto, registroMes.cuotaMensual, registroMes.descripcion, registroMes.montoPagar, balancefinal));
         }
-        Collections.sort(combinedList, (a, b) -> compareApto(a.numApto, b.numApto));
         return combinedList;
     }
 
@@ -285,7 +301,6 @@ public class ContabilidadFragment extends Fragment {
                     balanceActualPropietario
             ));
         }
-        Collections.sort(combinedList, (a, b) -> compareApto(a.getApto(), b.getApto()));
         return combinedList;
     }
 
@@ -326,29 +341,6 @@ public class ContabilidadFragment extends Fragment {
             }
             return YearMonth.of(anio, numeroMes);
         } catch (Exception e) { return YearMonth.now(); }
-    }
-
-    // Comparador común para ordenar por número de apartamento (ej. A-1, A-10, B-2)
-    private int compareApto(String a, String b) {
-        if (a == null) a = "";
-        if (b == null) b = "";
-
-        String pa = a.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
-        String pb = b.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
-        int prefix = pa.compareTo(pb);
-        if (prefix != 0) return prefix;
-
-        // Si los prefijos son iguales, comparar el número
-        try {
-            int na = Integer.parseInt(a.replaceAll("[^0-9]", ""));
-            int nb = Integer.parseInt(b.replaceAll("[^0-9]", ""));
-            int numeric = Integer.compare(na, nb);
-            if (numeric != 0) return numeric;
-        } catch (Exception ignored) {
-            // Si no hay números, cae a comparación completa
-        }
-
-        return a.compareToIgnoreCase(b);
     }
 
     private void setEmptyUIState(boolean empty) {

@@ -1,7 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.SystemManager" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Force black accents and outlines for light theme -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/black</item>
@@ -10,4 +8,22 @@
     </style>
 
     <style name="Theme.SystemManager" parent="Base.Theme.SystemManager" />
+
+    <style name="DialogoRedondoYNegro" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+
+        <item name="android:background">@drawable/dialog_rounded_bg</item>
+
+        <item name="colorOnSurface">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+
+        <item name="colorOnSurfaceVariant">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
+
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

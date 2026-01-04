@@ -24,7 +24,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.jrdev.systemmanager.BuildConfig;
 import com.jrdev.systemmanager.DataBaseConnection.dao.RegistroFinancieroDao;
 import com.jrdev.systemmanager.DataBaseConnection.repository.MesCuotaRepository;
 import com.jrdev.systemmanager.DataBaseConnection.repository.PropietarioRepository;
@@ -42,7 +44,6 @@ public class RegistroFinancieroActivity extends AppCompatActivity {
 
     public static final String EXTRA_IS_EDIT = "extra_is_edit";
     public static final String EXTRA_ID = "extra_id";
-    private static final String BASE_URL = "https://api-systemmanager.onrender.com";
 
     private ActivityRegistroFinancieroBinding binding;
     private RegistroFinancieroRepository registroRepo;
@@ -70,9 +71,9 @@ public class RegistroFinancieroActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Inicializar Repositorios
-        registroRepo = new RegistroFinancieroRepository(BASE_URL);
-        mesCuotaRepo = new MesCuotaRepository(BASE_URL);
-        propietarioRepo = new PropietarioRepository(BASE_URL);
+        registroRepo = new RegistroFinancieroRepository(BuildConfig.API_URL);
+        mesCuotaRepo = new MesCuotaRepository(BuildConfig.API_URL);
+        propietarioRepo = new PropietarioRepository(BuildConfig.API_URL);
 
         // Configuraciones iniciales
         setupMesAutocomplete();
@@ -504,8 +505,8 @@ public class RegistroFinancieroActivity extends AppCompatActivity {
     }
 
     private void lanzarPickerImagenes() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setTitle("Seleccionar foto")
+        new MaterialAlertDialogBuilder(this, R.style.DialogoRedondoYNegro)
+                .setTitle("Seleccionar foto")
                 .setItems(new CharSequence[]{"Seleccionar del dispositivo", "Tomar foto"}, (dialog, which) -> {
                     if (which == 0) {
                         // Seleccionar del dispositivo
@@ -515,7 +516,7 @@ public class RegistroFinancieroActivity extends AppCompatActivity {
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
                         pickImagesLauncher.launch(intent);
                     } else {
-                        // Tomar foto con cámara
+                        // Tomar foto
                         tomarFotoConCamara();
                     }
                 })

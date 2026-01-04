@@ -1,10 +1,7 @@
 package com.jrdev.systemmanager.controllers.propietarios;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,19 +12,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.jrdev.systemmanager.BuildConfig; // Importante: Usamos la config global
 import com.jrdev.systemmanager.DataBaseConnection.dao.PropietarioDao;
+import com.jrdev.systemmanager.DataBaseConnection.repository.PropietarioRepository;
 import com.jrdev.systemmanager.R;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class PropietarioFragment extends Fragment {
-
+    private PropietarioRepository repository;
     private List<PropietarioDao> propietarios = new LinkedList<>();
-    private PropietarioViewModel propietarioViewModel;
+    private List<PropietarioDao> propietariosFiltrados = new LinkedList<>();
 
     private EditText txtBuscarPropietario;
     private EditText txtNumApto;
@@ -43,10 +47,8 @@ public class PropietarioFragment extends Fragment {
     private MaterialButton btnEliminar;
     private MaterialCardView cvDetalles;
     private MaterialCardView cvMensajeBienvenida;
-    private List<PropietarioDao> propietariosFiltrados = new LinkedList<>();
-    private boolean isUpdatingSearch = false;
 
-    // Para guardar el propietario actual
+    private boolean isUpdatingSearch = false;
     private PropietarioDao propietarioActual = null;
     private boolean modoEdicion = false;
 
@@ -60,11 +62,15 @@ public class PropietarioFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        propietarioViewModel = new ViewModelProvider(this).get(PropietarioViewModel.class);
+        // 1. Inicializar Repository directamente (Sin ViewModel)
+        repository = new PropietarioRepository(BuildConfig.API_URL);
 
-        propietarioViewModel.getPropietarios().observe(getViewLifecycleOwner(), aux -> {
-            if (aux != null) {
-                propietarios = aux;
+        // 2. Cargar lista inicial
+        repository.listar("", "").observe(getViewLifecycleOwner(), lista -> {
+            if (lista != null) {
+                propietarios = lista;
+            } else {
+                propietarios = new LinkedList<>();
             }
         });
 
@@ -112,7 +118,7 @@ public class PropietarioFragment extends Fragment {
             }
         });
 
-        // Boton Modificar
+        // Boton Modificar / Actualizar
         btnModificar.setOnClickListener(v -> {
             if (!modoEdicion) {
                 activarEdicion();
@@ -121,7 +127,7 @@ public class PropietarioFragment extends Fragment {
             }
         });
 
-        // Boton Eliminar/Cancelar
+        // Boton Eliminar / Cancelar
         btnEliminar.setOnClickListener(v -> {
             if (!modoEdicion) {
                 eliminarPropietario();
@@ -134,7 +140,6 @@ public class PropietarioFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Al volver al fragment, limpiar el buscador y el formulario para evitar estados inconsistentes
         isUpdatingSearch = true;
         txtBuscarPropietario.setText("");
         isUpdatingSearch = false;
@@ -142,12 +147,79 @@ public class PropietarioFragment extends Fragment {
         limpiarFormulario(false);
     }
 
+
+    private void actualizarPropietario() {
+        if (propietarioActual == null) return;
+
+        // Actualizar datos del objeto local
+        propietarioActual.numApto = txtNumApto.getText().toString().trim();
+        propietarioActual.nombrePropietario = txtNombreP.getText().toString().trim();
+
+        try {
+            float totalAbonadoActual = parseNumber(txtTotalAbonado.getText().toString());
+            float agregadoAbono = parseNumber(txtMontoAgregadoAbono.getText().toString());
+            float newAbonado = totalAbonadoActual + agregadoAbono;
+
+            float balance = parseNumber(txtTotalAdeudado.getText().toString());
+            propietarioActual.totalabonado = newAbonado;
+            propietarioActual.balance = agregadoAbono + balance;
+
+            if(propietarioActual.balance < 0){
+                propietarioActual.estado = "Rojo";
+            } else {
+                propietarioActual.estado = "Verde";
+            }
+        } catch (NumberFormatException e) {
+            showMessage("Formato de números inválido");
+            return;
+        }
+
+        // Llamada directa al Repository
+        repository.actualizar(propietarioActual.idpropietario, propietarioActual).observe(getViewLifecycleOwner(), result -> {
+            if (result != null) {
+                showMessage("Propietario actualizado correctamente");
+                cargarPropietario(propietarioActual);
+                desactivarEdicion();
+            } else {
+                showMessage("Error al actualizar propietario");
+            }
+        });
+    }
+
+    private void eliminarPropietario() {
+        if (propietarioActual == null) return;
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext(), R.style.DialogoRedondoYNegro)
+                .setTitle("Eliminar Propietario")
+                .setMessage("¿Estás seguro de que deseas eliminar a " + propietarioActual.nombrePropietario + "?\nEsta acción no se puede deshacer.")
+                .setPositiveButton("Sí, eliminar", (dialog, which) -> {
+                    repository.eliminar(propietarioActual.idpropietario)
+                            .observe(getViewLifecycleOwner(), success -> {
+                                if (success) {
+                                    showMessage("Propietario eliminado correctamente");
+                                    propietarios.remove(propietarioActual);
+                                    limpiarFormulario(true);
+                                } else {
+                                    showMessage("Error al eliminar propietario");
+                                }
+                            });
+                })
+                .setNegativeButton("Cancelar", null);
+
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded_bg);
+        }
+        dialog.show();
+    }
+
+    // --- MÉTODOS DE UI ---
+
     private void activarEdicion() {
         modoEdicion = true;
         txtMontoAgregadoAbono.setEnabled(true);
         llMontoAgregadoAbono.setVisibility(View.VISIBLE);
-        
-        // Ajustar weights para que ambos ocupen 50/50
+
         LinearLayout.LayoutParams paramsAbono = (LinearLayout.LayoutParams) llTotalAbonado.getLayoutParams();
         paramsAbono.weight = 1;
         llTotalAbonado.setLayoutParams(paramsAbono);
@@ -162,8 +234,7 @@ public class PropietarioFragment extends Fragment {
         txtNombreP.setEnabled(false);
         txtMontoAgregadoAbono.setEnabled(false);
         llMontoAgregadoAbono.setVisibility(View.GONE);
-        
-        // Ajustar weights para que los totales ocupen todos el anchos
+
         LinearLayout.LayoutParams paramsAbono = (LinearLayout.LayoutParams) llTotalAbonado.getLayoutParams();
         paramsAbono.weight = 2;
         llTotalAbonado.setLayoutParams(paramsAbono);
@@ -174,59 +245,9 @@ public class PropietarioFragment extends Fragment {
 
     private void cancelarEdicion() {
         desactivarEdicion();
-        // Recargar datos anteriores
         if (propietarioActual != null) {
             cargarPropietario(propietarioActual);
         }
-    }
-
-    private void actualizarPropietario() {
-        if (propietarioActual == null) return;
-
-        // Actualizar datos del propietario
-        propietarioActual.numApto = txtNumApto.getText().toString().trim();
-        propietarioActual.nombrePropietario = txtNombreP.getText().toString().trim();
-
-        try {
-            float totalAbonadoActual = parseNumber(txtTotalAbonado.getText().toString());
-            float agregadoAbono = parseNumber(txtMontoAgregadoAbono.getText().toString());
-            float newAbonado = totalAbonadoActual + agregadoAbono;
-            float balance = parseNumber(txtTotalAdeudado.getText().toString());
-            propietarioActual.totalabonado = newAbonado;
-            propietarioActual.balance =  agregadoAbono + balance;
-            if(propietarioActual.balance < 0){
-                propietarioActual.estado = "Rojo";
-            } else {
-                propietarioActual.estado = "Verde";
-            }
-        } catch (NumberFormatException e) {
-            showMessage("Formato de números inválido");
-            return;
-        }
-
-        // Llamar al repositorio para actualizar
-        propietarioViewModel.actualizar(propietarioActual.idpropietario, propietarioActual).observe(getViewLifecycleOwner(), result -> {
-            if (result != null) {
-                showMessage("Propietario actualizado correctamente");
-                cargarPropietario(propietarioActual);
-                desactivarEdicion();
-            } else {
-                showMessage("Error al actualizar propietario");
-            }
-        });
-    }
-
-    private void eliminarPropietario() {
-        if (propietarioActual == null) return;
-
-        propietarioViewModel.eliminar(propietarioActual.idpropietario).observe(getViewLifecycleOwner(), success -> {
-            if (success) {
-                showMessage("Propietario eliminado correctamente");
-                limpiarFormulario(true);
-            } else {
-                showMessage("Error al eliminar propietario");
-            }
-        });
     }
 
     private void limpiarFormulario(boolean clearSearchText) {
@@ -244,7 +265,6 @@ public class PropietarioFragment extends Fragment {
         lbPendiente.setVisibility(View.GONE);
         propietarioActual = null;
 
-//         Mostrar mensaje inicial
         cvMensajeBienvenida.setVisibility(View.VISIBLE);
         cvDetalles.setVisibility(View.GONE);
     }
@@ -257,8 +277,10 @@ public class PropietarioFragment extends Fragment {
             return;
         }
         for (PropietarioDao p : propietarios) {
-            if(p.nombrePropietario.toLowerCase().contains(busqueda) || p.numApto.toLowerCase().contains(busqueda) ||
-            String.format("%.2f", p.totalabonado).contains(busqueda) || String.format("%.2f", p.balance).contains(busqueda)){
+            if(p.nombrePropietario.toLowerCase().contains(busqueda) ||
+                    p.numApto.toLowerCase().contains(busqueda) ||
+                    String.format("%.2f", p.totalabonado).contains(busqueda) ||
+                    String.format("%.2f", p.balance).contains(busqueda)){
                 propietariosFiltrados.add(p);
             }
         }
@@ -267,7 +289,6 @@ public class PropietarioFragment extends Fragment {
     private void cargarPropietario(PropietarioDao propietarioDao) {
         propietarioActual = propietarioDao;
 
-        // Ocultar mensaje inicial, mostrar detalles
         cvMensajeBienvenida.setVisibility(View.GONE);
         cvDetalles.setVisibility(View.VISIBLE);
 

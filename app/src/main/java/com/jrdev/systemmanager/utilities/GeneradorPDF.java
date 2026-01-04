@@ -52,14 +52,6 @@ public class GeneradorPDF {
     private static final Font FONT_NOTA =
             FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9, BaseColor.BLACK);
 
-        public void generarReporte(String rutaDestino,
-                                                           RegistroFinancieroDao registro,
-                                                           List<InformeTableView> listaDatos) throws Exception {
-                try (FileOutputStream fos = new FileOutputStream(rutaDestino)) {
-                        generarReporte(fos, registro, listaDatos);
-                }
-        }
-
         public void generarReporte(OutputStream outputStream,
                                                            RegistroFinancieroDao registro,
                                                            List<InformeTableView> listaDatos) throws Exception {
@@ -87,13 +79,14 @@ public class GeneradorPDF {
         float totalRecibido = 0;
 
         for (InformeTableView i : listaDatos) {
-            if (i.getBalance() < 0) totalPendiente += i.getBalance();
-            if (i.getBalance() > 0) totalRecibido += i.getMontoPagar();
+            if (i.getBalance() < 0) totalPendiente += i.getMontoPagar();
+            if (i.getBalance() >= 0) totalRecibido += i.getMontoPagar();
         }
+        if(totalPendiente > 0) totalPendiente *= (-1);
 
         agregarCeldaTotal(tablaTotales, "TOTAL RECIBIDO", totalRecibido, false);
         agregarCeldaTotal(tablaTotales, "CUOTA", registro.cuotaMensual != null ? registro.cuotaMensual : 0f, false);
-        agregarCeldaTotal(tablaTotales, "A PAGAR", registro.montoPagar != null ? registro.montoPagar : 0f, false);
+        agregarCeldaTotal(tablaTotales, "MONTO A PAGAR", registro.montoPagar != null ? registro.montoPagar : 0f, false);
         agregarCeldaTotal(tablaTotales, "PENDIENTE", totalPendiente, true);
 
         document.add(tablaTotales);
@@ -106,8 +99,8 @@ public class GeneradorPDF {
         tabla.setHeaderRows(1);
 
         String[] headers = {
-                "Apto", "Propietario", "Estado", "Recibido",
-                "Cuota", "Descripción", "A Pagar", "Balance"
+                "Apto", "Propietario", "Estado", "Recibido a la Fecha",
+                "Cuota", "Descripción", "Monto A Pagar", "Balance"
         };
 
         for (String h : headers) {

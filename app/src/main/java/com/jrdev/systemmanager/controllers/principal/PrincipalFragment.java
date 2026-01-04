@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jrdev.systemmanager.BuildConfig;
 import com.jrdev.systemmanager.DataBaseConnection.dao.PropietarioDao;
 import com.jrdev.systemmanager.DataBaseConnection.repository.PropietarioRepository;
 import com.jrdev.systemmanager.R;
@@ -37,12 +38,6 @@ public class PrincipalFragment extends Fragment {
     // Lista completa de propietarios (sin filtrar)
     private List<PropietarioDao> propietariosCompletos = new ArrayList<>();
 
-    // Comparador para ordenar por número de apartamento (numérico cuando sea posible)
-    private final Comparator<PropietarioDao> aptoComparator = (a, b) -> compareApto(a.numApto, b.numApto);
-
-    // URL de tu API
-    private static final String BASE_URL = "https://api-systemmanager.onrender.com";
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +48,7 @@ public class PrincipalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Inicializar repository
-        repository = new PropietarioRepository(BASE_URL);
+        repository = new PropietarioRepository(BuildConfig.API_URL);
 
         // Inicializar vistas
         tablePrincipal = view.findViewById(R.id.tablePrincipal);
@@ -89,7 +84,6 @@ public class PrincipalFragment extends Fragment {
         repository.listar("", "").observe(getViewLifecycleOwner(), propietarios -> {
             if (propietarios != null) {
                 propietariosCompletos = new ArrayList<>(propietarios);
-                Collections.sort(propietariosCompletos, aptoComparator);
                 adapter.actualizarLista(propietariosCompletos);
                 calcularTotales(propietariosCompletos);
             } else {
@@ -117,8 +111,6 @@ public class PrincipalFragment extends Fragment {
                 propietariosFiltrados.add(p);
             }
         }
-
-        Collections.sort(propietariosFiltrados, aptoComparator);
         adapter.actualizarLista(propietariosFiltrados);
     }
 
