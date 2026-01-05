@@ -259,8 +259,8 @@ Este proyecto es de código propietario. Todos los derechos reservados.
 ## 👨‍💻 Autor
 
 **JRDev**
-- GitHub: [@tuusuario](https://github.com/tuusuario)
-- Email: tu@email.com
+- GitHub:(https://github.com/Juancho024)
+- Email: juanrijo240@gmail.com
 
 ## 🙏 Agradecimientos
 
