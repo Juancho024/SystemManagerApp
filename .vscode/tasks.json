@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build APK Release",
+			"type": "shell",
+			"command": "./gradlew",
+			"args": [
+				"assembleRelease"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Generar APK Release",
+			"type": "shell",
+			"command": "cd \"c:\\Users\\esteb\\Desktop\\Curso de Java\\Curso de Android\\SystemManager\" && .\\gradlew.bat assembleRelease && copy \"app\\build\\outputs\\apk\\release\\app-release.apk\" \"C:\\Users\\esteb\\Desktop\\SystemManager3.0.apk\"",
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
