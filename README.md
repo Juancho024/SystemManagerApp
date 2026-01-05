@@ -220,14 +220,32 @@ Las contribuciones son bienvenidas. Para cambios importantes:
 
 ## 📝 Changelog
 
-### Versión 2.1 (Actual)
+### Versión 3.0 (Actual) - System Manager v3.0
+- ✅ **Lógica de Usuario**: Sistema completo de gestión de usuarios
+- ✅ **Lógica de Login y Cerrar Sesión**: Autenticación robusta con múltiples variantes de endpoints
+- ✅ **Lógica para Guardar Usuarios Interno**: Almacenamiento seguro de credenciales usando Security Crypto
+- ✅ **Auto-Login**: Ingreso automático con el usuario guardado en el dispositivo
+- ✅ **Lógica de Cambiar Password**: Funcionalidad completa para cambio de contraseña del usuario
+- ✅ **Lógica de Cambiar Usuario**: Edición de información de perfil
+- ✅ **Control de Permisos Admin**: Restricciones para usuarios no-admin
+- ✅ No permite eliminar propietarios
+- ✅ No permite crear registros financieros
+- ✅ No permite actualizar registros financieros
+- ✅ Mensajes personalizados: "No eres admin para tener acceso a eso"
 - ✅ Sistema de roles Admin/Usuario implementado
-- ✅ Validaciones de permisos en eliminación de propietarios
-- ✅ Validaciones de permisos en registros financieros
-- ✅ Funcionalidad de cambio de contraseña
-- ✅ Sesión persistente con datos encriptados
+- ✅ Sesión persistente con encriptación de datos
+- ✅ Validaciones de permisos en todas las operaciones críticas
 - ✅ Mejoras en la UI/UX
-- ✅ Correcciones de bugs en login
+- ✅ Correcciones de bugs en autenticación
+
+### Versión 2.1
+- Sistema de roles Admin/Usuario implementado
+- Validaciones de permisos en eliminación de propietarios
+- Validaciones de permisos en registros financieros
+- Funcionalidad de cambio de contraseña
+- Sesión persistente con datos encriptados
+- Mejoras en la UI/UX
+- Correcciones de bugs en login
 
 ### Versión 1.0
 - Lanzamiento inicial
