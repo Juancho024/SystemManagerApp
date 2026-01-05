@@ -36,6 +36,7 @@ import com.jrdev.systemmanager.models.InformeTableView;
 import com.google.android.material.card.MaterialCardView;
 import com.jrdev.systemmanager.utilities.GeneradorIMG;
 import com.jrdev.systemmanager.utilities.GeneradorPDF;
+import com.jrdev.systemmanager.controllers.login.LoginFragment;
 
 import java.time.YearMonth;
 import java.io.OutputStream;
@@ -212,6 +213,12 @@ public class ContabilidadFragment extends Fragment {
         });
 
         btnActualizarRegistro.setOnClickListener(v -> {
+            // Verificar si el usuario es admin antes de permitir crear/actualizar registros financieros
+            if (!esAdmin()) {
+                showMessage("Debes tener acceso ADMIN para acceder.");
+                return;
+            }
+
             String mes = txtBuscarContabilidad.getText().toString().trim();
             if (mes.isEmpty()) {
                 abrirRegistroNuevo();
@@ -357,5 +364,14 @@ public class ContabilidadFragment extends Fragment {
         } else if (getContext() != null) {
             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         }
+    }
+
+    // Revisar si es admin
+    private boolean esAdmin() {
+        if (LoginFragment.usuarioLogueado == null) {
+            return false;
+        }
+        String tipoUsuario = LoginFragment.usuarioLogueado.getTipoUsuario();
+        return tipoUsuario != null && tipoUsuario.equalsIgnoreCase("admin");
     }
 }

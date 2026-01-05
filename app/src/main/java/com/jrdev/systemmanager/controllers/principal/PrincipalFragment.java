@@ -5,22 +5,31 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.NavOptions;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jrdev.systemmanager.BuildConfig;
 import com.jrdev.systemmanager.DataBaseConnection.dao.PropietarioDao;
 import com.jrdev.systemmanager.DataBaseConnection.repository.PropietarioRepository;
 import com.jrdev.systemmanager.R;
 import com.jrdev.systemmanager.adapters.PropietariosAdapter;
+import com.jrdev.systemmanager.controllers.login.LoginFragment;
+import com.jrdev.systemmanager.utilities.SessionManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +56,10 @@ public class PrincipalFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        
+        // Habilitar el menú de opciones
+        setHasOptionsMenu(true);
+        
         // Inicializar repository
         repository = new PropietarioRepository(BuildConfig.API_URL);
 
@@ -77,6 +90,27 @@ public class PrincipalFragment extends Fragment {
                 buscarPropietario(s.toString());
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_usuario, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_editar_perfil) {
+            navTo(R.id.action_page_principal_to_editarPerfilFragment);
+            return true;
+        } else if (item.getItemId() == R.id.menu_cambiar_password) {
+            navTo(R.id.action_page_principal_to_cambiarPasswordFragment);
+            return true;
+        } else if (item.getItemId() == R.id.menu_cerrar_sesion) {
+            cerrarSesion();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void cargarPropietarios() {
@@ -114,29 +148,6 @@ public class PrincipalFragment extends Fragment {
         adapter.actualizarLista(propietariosFiltrados);
     }
 
-    // Ordena aptos tipo "A-1", "A-10", "B-2": primero prefijo, luego número
-    private int compareApto(String a, String b) {
-        if (a == null) a = "";
-        if (b == null) b = "";
-
-        String pa = a.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
-        String pb = b.replaceAll("[^A-Za-z]", "").toUpperCase(Locale.ROOT);
-        int prefix = pa.compareTo(pb);
-        if (prefix != 0) return prefix;
-
-        // Si los prefijos son iguales, comparar el número
-        try {
-            int na = Integer.parseInt(a.replaceAll("[^0-9]", ""));
-            int nb = Integer.parseInt(b.replaceAll("[^0-9]", ""));
-            int numeric = Integer.compare(na, nb);
-            if (numeric != 0) return numeric;
-        } catch (Exception ignored) {
-            // Si no hay números, cae a comparación completa
-        }
-
-        return a.compareToIgnoreCase(b);
-    }
-
     private void calcularTotales(List<PropietarioDao> propietarios) {
         float totalAbonado = 0.0f;
         float totalAdeudado = 0.0f;
@@ -152,6 +163,40 @@ public class PrincipalFragment extends Fragment {
 
         txtTotalAbonado.setText(String.format("DOP $ %.2f", totalAbonado));
         txtTotalAdeudado.setText(String.format("DOP $ %.2f", totalAdeudado));
+    }
+
+    // Navega a un destino usando la acción
+
+    private void navTo(int actionId) {
+        try {
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(actionId);
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Error al navegar", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Cierra la sesión del usuario
+
+    private void cerrarSesion() {
+        // Limpiar datos de usuario
+        LoginFragment.usuarioLogueado = null;
+
+        // Limpiar sesión guardada
+        SessionManager sessionManager = new SessionManager(requireContext());
+        sessionManager.eliminarSesion();
+
+        // Navegar a login
+        try {
+            NavController navController = Navigation.findNavController(requireView());
+            NavOptions opts = new NavOptions.Builder()
+                    .setPopUpTo(R.id.nav, true)
+                    .build();
+            navController.navigate(R.id.loginFragment, null, opts);
+        } catch (Exception e) {
+            navTo(R.id.action_page_principal_to_loginFragment);
+        }
+        Toast.makeText(getContext(), "Sesión cerrada", Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.jrdev.systemmanager.controllers.main;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.jrdev.systemmanager.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,21 @@ public class MainActivity extends AppCompatActivity {
 
         // 3. Conectar el BottomNavigation con el NavController
         if (navHostFragment != null) {
-            NavController navController = navHostFragment.getNavController();
+            navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
+
+            // 4. Listener para ocultar/mostrar la barra de navegación según el fragment
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                if (destination.getId() == R.id.loginFragment || 
+                    destination.getId() == R.id.cambiarPasswordFragment ||
+                    destination.getId() == R.id.editarPerfilFragment) {
+                    // Ocultar la barra de navegación en estos fragments
+                    binding.bottomNavigationView.setVisibility(View.GONE);
+                } else {
+                    // Mostrar la barra de navegación en los demás fragments
+                    binding.bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 }

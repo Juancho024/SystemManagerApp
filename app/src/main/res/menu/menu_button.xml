@@ -17,9 +17,8 @@
 
     <item
         android:id="@+id/page_calendario"
-        android:icon="@drawable/calendar_solid"
-        android:title="Calendario" />
-
+        android:icon="@drawable/gear_solid_full"
+        android:title="Configuración" />
 
 
 </menu>

@@ -24,6 +24,7 @@ import com.jrdev.systemmanager.BuildConfig; // Importante: Usamos la config glob
 import com.jrdev.systemmanager.DataBaseConnection.dao.PropietarioDao;
 import com.jrdev.systemmanager.DataBaseConnection.repository.PropietarioRepository;
 import com.jrdev.systemmanager.R;
+import com.jrdev.systemmanager.controllers.login.LoginFragment;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -189,6 +190,12 @@ public class PropietarioFragment extends Fragment {
     private void eliminarPropietario() {
         if (propietarioActual == null) return;
 
+        // Verificar si el usuario actual es admin
+        if (!esAdmin()) {
+            showMessage("Debes tener acceso ADMIN para acceder.");
+            return;
+        }
+
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext(), R.style.DialogoRedondoYNegro)
                 .setTitle("Eliminar Propietario")
                 .setMessage("¿Estás seguro de que deseas eliminar a " + propietarioActual.nombrePropietario + "?\nEsta acción no se puede deshacer.")
@@ -211,6 +218,15 @@ public class PropietarioFragment extends Fragment {
             dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded_bg);
         }
         dialog.show();
+    }
+
+    //Validar que eres admin
+    private boolean esAdmin() {
+        if (LoginFragment.usuarioLogueado == null) {
+            return false;
+        }
+        String tipoUsuario = LoginFragment.usuarioLogueado.getTipoUsuario();
+        return tipoUsuario != null && tipoUsuario.equalsIgnoreCase("admin");
     }
 
     // --- MÉTODOS DE UI ---

@@ -18,7 +18,7 @@ android {
         minSdk = 24
         targetSdk = 36
         versionCode = 2
-        versionName = "2.1"
+        versionName = "2.1`"
         val properties = Properties()
         val localPropertiesFile = project.rootProject.file("local.properties")
 
@@ -83,6 +83,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation(libs.cardview)
     //implementation(libs.cardview.v7)
+
+    //guardar datos
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -29,7 +29,4 @@ public interface PropietarioApi {
 
     @PATCH("api/propietarios/{id}/estado")
     Call<PropietarioDao> actualizarEstado(@Path("id") long id);
-
-//    @GET("api/propietarios/stats")
-//    Call<StatsDao> stats();
 }

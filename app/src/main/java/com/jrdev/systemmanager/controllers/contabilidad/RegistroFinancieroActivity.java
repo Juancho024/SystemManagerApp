@@ -92,6 +92,12 @@ public class RegistroFinancieroActivity extends AppCompatActivity {
     // LÓGICA PRINCIPAL DE GUARDADO (Entry Point)
     // ============================================================================================
     private void guardar() {
+        // Verificar si el usuario es admin antes de permitir crear/actualizar registros financieros
+        if (!esAdmin()) {
+            mostrar("Debes tener acceso ADMIN para acceder.");
+            return;
+        }
+
         // 1. Obtener datos de la UI
         String mes = binding.etMesCuota.getText() != null ? binding.etMesCuota.getText().toString().trim() : "";
         String cuotaTxt = binding.etMontoCuota.getText() != null ? binding.etMontoCuota.getText().toString().trim() : "";
@@ -590,5 +596,13 @@ public class RegistroFinancieroActivity extends AppCompatActivity {
     private String encodeSlot(int slot) {
         if (slot < 0 || slot >= 4 || imagenesBytes[slot] == null) return null;
         return Base64.encodeToString(imagenesBytes[slot], Base64.NO_WRAP);
+    }
+    //Validar si es admin
+    private boolean esAdmin() {
+        if (com.jrdev.systemmanager.controllers.login.LoginFragment.usuarioLogueado == null) {
+            return false;
+        }
+        String tipoUsuario = com.jrdev.systemmanager.controllers.login.LoginFragment.usuarioLogueado.getTipoUsuario();
+        return tipoUsuario != null && tipoUsuario.equalsIgnoreCase("admin");
     }
 }

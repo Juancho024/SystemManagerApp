@@ -3,26 +3,85 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/page_principal">
+    app:startDestination="@id/loginFragment">
 
+    <!-- Login Fragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.jrdev.systemmanager.controllers.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_principalFragment"
+            app:destination="@id/page_principal"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Cambiar Password Fragment -->
+    <fragment
+        android:id="@+id/cambiarPasswordFragment"
+        android:name="com.jrdev.systemmanager.controllers.login.CambiarPasswordFragment"
+        android:label="Cambiar Contraseña"
+        tools:layout="@layout/fragment_cambiar_password" />
+
+    <!-- Editar Perfil Fragment -->
+    <fragment
+        android:id="@+id/editarPerfilFragment"
+        android:name="com.jrdev.systemmanager.controllers.login.EditarPerfilFragment"
+        android:label="Editar Perfil"
+        tools:layout="@layout/fragment_editar_perfil" />
+
+    <!-- Principal Fragment -->
     <fragment
         android:id="@+id/page_principal"
         android:name="com.jrdev.systemmanager.controllers.principal.PrincipalFragment"
-        tools:layout="@layout/fragment_principal" />
+        android:label="Principal"
+        tools:layout="@layout/fragment_principal">
+        <action
+            android:id="@+id/action_page_principal_to_cambiarPasswordFragment"
+            app:destination="@id/cambiarPasswordFragment" />
+        <action
+            android:id="@+id/action_page_principal_to_editarPerfilFragment"
+            app:destination="@id/editarPerfilFragment" />
+        <action
+            android:id="@+id/action_page_principal_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/page_principal"
+            app:popUpToInclusive="true" />
+    </fragment>
 
+    <!-- Propietarios Fragment -->
     <fragment
         android:id="@+id/page_propietarios"
         android:name="com.jrdev.systemmanager.controllers.propietarios.PropietarioFragment"
+        android:label="Propietarios"
         tools:layout="@layout/fragment_propietario" />
 
+    <!-- Contabilidad Fragment -->
     <fragment
         android:id="@+id/page_contabilidad"
         android:name="com.jrdev.systemmanager.controllers.contabilidad.ContabilidadFragment"
+        android:label="Contabilidad"
         tools:layout="@layout/fragment_contabilidad" />
 
+    <!-- Calendario Fragment -->
     <fragment
         android:id="@+id/page_calendario"
         android:name="com.jrdev.systemmanager.controllers.calendario.CalendarioFragment"
-        tools:layout="@layout/fragment_calendario" />
+        android:label="Calendario"
+        tools:layout="@layout/fragment_calendario">
+        <action
+            android:id="@+id/action_page_calendario_to_editarPerfilFragment"
+            app:destination="@id/editarPerfilFragment" />
+        <action
+            android:id="@+id/action_page_calendario_to_cambiarPasswordFragment"
+            app:destination="@id/cambiarPasswordFragment" />
+        <action
+            android:id="@+id/action_page_calendario_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/page_calendario"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>
